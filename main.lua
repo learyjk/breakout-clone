@@ -1,7 +1,7 @@
 -- main.lua
 
-local bar = require('entities/bar')
-local triangle = require('entities/triangle')
+local ball = require('entities/ball')
+local paddle = require('entities/paddle')
 local world = require('world')
 
 -- Boolean to keep track of whether our game is paused or not
@@ -17,8 +17,9 @@ local key_map = {
 }
 
 love.draw = function()
-  love.graphics.polygon('line', triangle.body:getWorldPoints(triangle.shape:getPoints()))
-  love.graphics.polygon('line', bar.body:getWorldPoints(bar.shape:getPoints()))
+  local ball_x, ball_y = ball.body:getWorldCenter()
+  love.graphics.circle('fill', ball_x, ball_y, ball.shape:getRadius())
+  love.graphics.polygon('line', paddle.body:getWorldPoints(paddle.shape:getPoints()))
 end
 
 love.focus = function(focused)
