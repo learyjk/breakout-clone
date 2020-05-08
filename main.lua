@@ -1,10 +1,6 @@
 -- main.lua
-local boundary_bottom = require('entities/boundary-bottom')
-local boundary_left = require('entities/boundary-left')
-local boundary_right = require('entities/boundary-right')
-local boundary_top = require('entities/boundary-top')
-local ball = require('entities/ball')
-local paddle = require('entities/paddle')
+
+local entities = require('entities')
 local world = require('world')
 
 -- Boolean to keep track of whether our game is paused or not
@@ -20,14 +16,9 @@ local key_map = {
 }
 
 love.draw = function()
-    love.graphics.polygon('line', boundary_bottom.body:getWorldPoints(boundary_bottom.shape:getPoints()))
-    love.graphics.polygon('line', boundary_top.body:getWorldPoints(boundary_top.shape:getPoints()))
-    love.graphics.polygon('line', boundary_left.body:getWorldPoints(boundary_left.shape:getPoints()))
-    love.graphics.polygon('line', boundary_right.body:getWorldPoints(boundary_right.shape:getPoints()))
-
-    local ball_x, ball_y = ball.body:getWorldCenter()
-    love.graphics.circle('fill', ball_x, ball_y, ball.shape:getRadius())
-    love.graphics.polygon('line', paddle.body:getWorldPoints(paddle.shape:getPoints()))
+    for _, entity in ipairs(entities) do
+        if entity.draw then entity:draw() end
+    end
 end
 
 love.focus = function(focused)
