@@ -36,8 +36,16 @@ end
 
 love.update = function(dt)
     if not input.pasued then
-        for _, entity in ipairs(entities) do
+        local index = 1
+        while index <= #entities do
+            local entity = entities[index]
             if entity.update then entity:update(dt) end
+            if entity.health == 0 then
+                table.remove(entities, index)
+                entity.fixture:destroy()
+            else
+                index = index + 1
+            end
         end
         world:update(dt)
     end
