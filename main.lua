@@ -45,6 +45,6 @@ love.update = function(dt)
             index = index + 1
         end
     end
-    state.stage_cleared = not have_bricks
+    state.stage_cleared = have_bricks
     world:update(dt)
 end
