@@ -4,6 +4,7 @@ local boundary_vertical = require('entities/boundary-vertical')
 local ball = require('entities/ball')
 local paddle = require('entities/paddle')
 local brick = require('entities/brick')
+local pause_text = require('entities/pause-text')
 
 return {
     boundary_bottom(400, 606),
@@ -15,4 +16,6 @@ return {
     brick(100, 100),
     brick(200, 100),
     brick(300, 100),
+    pause_text(),
+
 }

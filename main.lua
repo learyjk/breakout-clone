@@ -1,19 +1,20 @@
 -- main.lua
 
 local entities = require('entities')
+local input = require('input')
 local world = require('world')
 
 -- Boolean to keep track of whether our game is paused or not
 local paused = false
 
-local key_map = {
-    escape = function()
-    love.event.quit()
-    end,
-    space = function()
-    paused = not paused
-    end
-}
+-- local key_map = {
+--     escape = function()
+--     love.event.quit()
+--     end,
+--     space = function()
+--     paused = not paused
+--     end
+-- }
 
 love.draw = function()
     for _, entity in ipairs(entities) do
@@ -22,19 +23,22 @@ love.draw = function()
 end
 
 love.focus = function(focused)
-    if not focused then
-    paused = true
-    end
+    input.toggle_focus(focused)
 end
 
 love.keypressed = function(pressed_key)
-    -- Check in the key map if there is a function
-    -- that matches this pressed key's name
-    if key_map[pressed_key] then
-    key_map[pressed_key]()
-    end
+    input.press(pressed_key)
+end
+
+love.keyreleased = function(released_key)
+    input.release(released_key)
 end
 
 love.update = function(dt)
-    world:update(dt)
+    if not input.pasued then
+        for _, entity in ipairs(entities) do
+            if entity.update then entity:update(dt) end
+        end
+        world:update(dt)
+    end
 end
