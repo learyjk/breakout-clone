@@ -1,4 +1,4 @@
-local input = require('input')
+local state = require('state')
 local world = require('world')
 
 
@@ -26,13 +26,14 @@ return function(x_pos, y_pos)
     entity.update = function(self, dt)
       -- Don't move if both keys are pressed. Just return
       -- instead of going through the rest of the function.
-        if input.left and input.right then
+        if state.button_left and state.button_right then
+            self.body:setLinearVelocity(0, 0)
             return
         end
         local self_x = self.body:getX()
-        if input.left and self_x > left_boundary then
+        if state.button_left and self_x > left_boundary then
             self.body:setLinearVelocity(-entity_speed, 0)
-        elseif input.right and self_x < right_boundary then
+        elseif state.button_right and self_x < right_boundary then
             self.body:setLinearVelocity(entity_speed, 0)
         else
             self.body:setLinearVelocity(0, 0)
